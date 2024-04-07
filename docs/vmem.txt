@@ -32,16 +32,16 @@ The text field ends with a CR, which is stored only if there are less chars
 than the maximum (i.e. a single overflowing CR is never stored in a new
 record).
 
-Spaces are compressed into a byte with the high bit set and the lower 7 bits
-indicating the actual number of spaces.
+Multiple contiguous spaces are compressed into a single byte with the high
+bit set and the lower 7 bits indicating the actual number of spaces.
 
 Since record numbers are kept in a word, the maximum work file size (and
 therefore the maximum editable file size) is limited to 65536/32 = 2048
 blocks, or about 2048*512 = 1048576 bytes (1 Mbyte). In practice, the
 maximum file size is somewhat less than that due to the overhead of pointers
 (one word per record) and length fields (one additional word in the line
-header records). In compensation, multiple contiguous spaces get compressed
-into a single byte.
+header records). The multiple space compression mentioned above compensates
+somewhat for the space lost by the pointers and length fields.
 
 The maximum allowed line length is 162 bytes.
 
